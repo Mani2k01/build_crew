@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Company Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <style>
+        * {
+            box-sizing: border-box
+        }
+        
+        .header {
+            background: #0a3d62;
+            padding: 18px 40px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+
+        .header a{
+            margin-left:auto;
+            font-size:28px;
+            cursor:pointer;
+        }
+
+        .header a i {
+            color: #fff;
+            transition: 0.2s;
+        }
+        .header a i:hover {
+            /* color: #ffcccc; */
+            transform: scale(1.1);
+        }
+
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            color: #2c3e50;
+        }
+        /* ===== LAYOUT ===== */
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 25px;
+        }
+        /* ===== CARD ===== */
+        
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+        /* ===== COMPANY HERO ===== */
+        
+        .company-card {
+            text-align: center;
+        }
+        
+        .logo {
+            width: 160px;
+            height: 160px;
+            border-radius: 16px;
+            object-fit: contain;
+            border: 3px solid #0a3d62;
+            padding: 10px;
+            background: #fff;
+        }
+        
+        .company-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 15px 0 5px;
+        }
+        
+        .company-type {
+            color: #0a3d62;
+            font-weight: 600;
+        }
+        
+        .status {
+            margin-top: 10px;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #eaf3fb;
+            color: #0a3d62;
+        }
+        /* ===== INFO LIST ===== */
+        
+        .info-list {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .info-list div {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        .info-list span {
+            display: block;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        /* ===== TITLES ===== */
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #0a3d62;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 8px;
+        }
+        /* ===== TAGS ===== */
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tag {
+            background: #0a3d62;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 13px;
+        }
+        /* ===== STATS ===== */
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .stat {
+            background: #f9fbfd;
+            border: 1px solid #e5e9f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #0a3d62;
+        }
+        
+        .stat span {
+            font-size: 13px;
+            color: #7f8c8d;
+        }
+        /* ===== CONTACT BOX ===== */
+        
+        .contact {
+            background: #eef4fb;
+            border-left: 4px solid #0a3d62;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+                .view-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            background: #0a3d62;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: 0.25s ease;
+            box-shadow: 0 6px 18px rgba(10, 61, 98, 0.25);
+        }
+
+        .view-profile-btn:hover {
+            background: #083250;
+            transform: translateY(-2px);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">BuildCrew
+        <a href="/back"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
+    <!-- <pre><%= JSON.stringify(company, null, 2) %></pre> -->
+
+    <div class="container">
+        <div class="grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="card company-card">
+                <img src="https://dummyimage.com/300x300/ffffff/0a3d62&text" class="logo">
+
+                <div class="company-name"><%= company.companyname || '' %></div>
+                <div class="company-type"><%= company.company_type || '' %></div>
+                <div class="status">✔ Verified Company</div>
+
+                <div class="info-list">
+                    <div>
+                        <span>City</span> <%= company.city || '' %>
+                    </div>
+                    <div>
+                        <span>Years in Business</span> <%= company.years_in_business || '' %> Years
+                    </div>
+                    <div>
+                        <span>Official Email</span> <%= company.office_mail || '' %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div>
+
+                <!-- SUMMARY -->
+                <div class="card">
+                    <div class="section-title">Company Overview</div>
+                    <p>
+                        <%= company.description || '' %>
+                    </p>
+                </div>
+
+                <!-- STATS -->
+                <div class="card">
+                    <div class="section-title">Company Highlights</div>
+                    <div class="stats">
+                        <div class="stat">
+                            <h3><%= company.years_in_business || '' %>+</h3>
+                            <span>Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <h3><%= company.projects_done || '' %>+</h3>
+                            <span>Projects Completed</span>
+                        </div>
+                        <div class="stat">
+                            <h3><%= company.workers || '' %>+</h3>
+                            <span>Workforce Strength</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECT TYPES -->
+                <div class="card">
+                    <div class="section-title">Project Types</div>
+                    <div class="tags">
+
+                        <% const project_types = Array.isArray(company.project_types)
+                            ? company.project_types
+                            : (company.project_types || "").split(","); %>
+
+                        <% project_types.forEach(function(project){ %>
+                            <div class="tag"><%= project %></div>
+                        <% }) %>
+
+                    </div>
+                </div>
+
+
+
+
+                <!-- CONTACT PERSON -->
+                <div class="card">
+                    <div class="section-title">Contact Person</div>
+                    <div class="contact">
+                        <strong>Name:</strong> <%= company.contact_person || '' %><br>
+                        <strong>Mobile:</strong> +91 <%= company.contact_person_no || '' %><br>
+                        <strong>Office Address:</strong><br> <%= company.address || '' %>,<br> <%= company.city || '' %> – 600032
+                    </div>
+                </div>
+
+                <div class="card" style="text-align:center;">
+                    <a href="/company/<%= cmp_id %>"
+                    class="view-profile-btn">
+                        <i class="fa-solid fa-user"></i>
+                        View Full Company Profile
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

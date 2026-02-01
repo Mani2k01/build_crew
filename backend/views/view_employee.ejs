@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * { box-sizing: border-box }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            color: #2c3e50;
+        }
+
+        .header {
+            background: #0a3d62;
+            padding: 18px 40px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .header h1 { font-size: 20px; margin: 0; }
+        .header a { margin-left:auto; font-size:24px; color:white; }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .profile-card { text-align: center; }
+
+        .avatar {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #0a3d62;
+        }
+
+        .name { font-size: 22px; font-weight: 700; margin: 15px 0 5px; }
+        .role { color: #0a3d62; font-weight: 600; }
+
+        .badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            background: #eaf3fb;
+            color: #0a3d62;
+        }
+
+        .info-list { margin-top: 20px; text-align: left; }
+        .info-list div { margin-bottom: 12px; font-size: 14px; }
+        .info-list span { color: #7f8c8d; display: block; font-size: 12px; }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #0a3d62;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 8px;
+        }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag {
+            background: #0a3d62;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-size: 13px;
+        }
+
+        .timeline { position: relative; margin-left: 10px; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #0a3d62;
+        }
+
+        .exp { margin-left: 25px; margin-bottom: 25px; }
+        .exp h4 { margin: 0; font-size: 16px; }
+        .exp span { font-size: 13px; color: #7f8c8d; }
+        .exp p { margin-top: 8px; font-size: 14px; }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .cert {
+            border: 1px solid #e5e9f0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            background: #f9fbfd;
+        }
+
+        .locked {
+            background: #eef4fb;
+            border-left: 4px solid #0a3d62;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        .view-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 26px;
+            background: #0a3d62;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: 0.25s ease;
+        }
+
+        .view-profile-btn:hover {
+            background: #083250;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            padding-bottom: 20px;
+        }
+
+        /* 📱 MOBILE RESPONSIVE */
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+            .avatar { width: 120px; height: 120px; }
+            .container { margin: 20px auto; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>BuildCrew</h1>
+    <a href="/back"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+</div>
+
+<div class="container">
+    <div class="grid">
+
+        <!-- LEFT -->
+        <div class="card profile-card">
+            <img src="<%= employee.profile_pic?.data ? 'data:image/png;base64,' + employee.profile_pic.data : '/default-avatar.png' %>" class="avatar">
+            <div class="name"><%= employee.Name || '' %></div>
+            <div class="role"><%= employee.Field || '' %></div>
+
+            <% if (employee.Availability === 'Available') { %>
+                <div class="badge">✅ Currently Working</div>
+            <% } else if (employee.Availability === 'Not Available') { %>
+                <div class="badge">⛔ Not Working</div>
+            <% } %>
+
+            <div class="info-list">
+                <div><span>Location</span><%= employee.Address || '' %></div>
+                <div><span>Experience</span><%= employee.experience_year || 'No Experience' %></div>
+                <div><span>Skill Level</span><%= employee.Skill || '' %></div>
+                <div><span>Known Languages</span><%= employee.Languages || '' %></div>
+
+                <br>
+                <div class="section-title">Contact Information</div>
+                <div class="locked">
+                    <p><b>Mobile :</b> +91 <%= employee.Mobile || '' %></p>
+                    <p><b>Email :</b> <%= employee.Email || '' %></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+
+            <div class="card">
+                <div class="section-title">Current Working</div>
+                <p><%= employee.Current_Company || '' %></p>
+            </div>
+
+            <div class="card">
+                <div class="section-title">Skills & Tools</div>
+                <div class="tags">
+                    <% if (employee.secondarySkills?.length || employee.Tools?.length) { %>
+                        <% employee.secondarySkills?.forEach(skill => { %>
+                            <div class="tag"><%= skill %></div>
+                        <% }) %>
+                        <% employee.Tools?.forEach(tool => { %>
+                            <div class="tag"><%= tool %></div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color:#777;">No Skills & Tools details available</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">Year wise Work Experience</div>
+                <div class="timeline">
+                    <% if (employee.experience?.length) { %>
+                        <% employee.experience.forEach(exp => { %>
+                            <div class="exp">
+                                <h4><%= exp.role %> — <%= exp.company %></h4>
+                                <span><%= exp.from %> – <%= exp.to %></span>
+                                <p><%= exp.description %></p>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color:#777;">No experience details available</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">Certifications</div>
+                <div class="cert-grid">
+                    <% if (employee.Certificates?.length) { %>
+                        <% employee.Certificates.forEach(cert => { %>
+                            <div class="cert"><%= cert %></div>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="color:#777;">No Certificate details available</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="card" style="text-align:center;">
+                <a href="/employee/<%= emp_id %>" class="view-profile-btn">
+                    <i class="fa-solid fa-user"></i>
+                    View Full Employee Profile
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    © 2025 VEDSP Inventive Private Limited. All rights reserved.
+</div>
+
+<script>
+    const success = "<%= success || '' %>";
+    const error = "<%= error || '' %>";
+    if (success) alert(success);
+    if (error) alert(error);
+</script>
+
+</body>
+</html>
+    

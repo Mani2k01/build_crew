@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Company Registration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f1f3f6;
+    color: #333;
+}
+
+/* HEADER */
+.header {
+    background: #0a3d62;
+    padding: 18px 40px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.header a{
+    margin-left:auto;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.header a i {
+    color: #fff;
+    transition: 0.2s;
+}
+.header a i:hover {
+    /* color: #ffcccc; */
+    transform: scale(1.1);
+}
+
+/* WRAPPER */
+.wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* STEPS */
+.steps {
+    display: flex;
+    margin-bottom: 30px;
+}
+.step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 3px solid #ccc;
+    color: #888;
+    font-weight: 600;
+    cursor: pointer;
+}
+.step.active {
+    border-color: #0a3d62;
+    color: #0a3d62;
+}
+.step:hover { background: #dbeafe; }
+
+main {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 20px;
+}  
+/* SECTION */
+.section {
+    padding: 25px;
+    background: #f9fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e9f0;
+    box-shadow: 0 6px 18px rgba(68,120,159,0.35);
+}
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0a3d62;
+    margin-bottom: 20px;
+}
+
+/* CARD */
+.card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 6px 18px rgba(68,120,159,0.35);
+}
+
+/* FORM */
+.form-group {
+    margin-bottom: 25px;
+}
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #0a3d62;
+    box-shadow: 0 0 0 2px rgba(10,61,98,0.15);
+}
+
+/* LOGO */
+.logo-box {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.logo-preview {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    border: 2px dashed #0a3d62;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    background: #eef4fb;
+}
+.logo-btn {
+    background: #0a3d62;
+    color: #fff;
+    padding: 6px 12px;        /* smaller padding */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;          /* smaller text */
+    display: inline-block;
+}
+
+/* PROJECT TYPES */
+.project-types {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.project-types label {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: 600;
+}
+.project-types input { display: none; }
+.project-types input:checked + span {
+    color: #0a3d62;
+}
+.project-types input:checked + span::before {
+    content: "✔ ";
+}
+
+/* ACTIONS */
+.actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+button {
+    padding: 12px 30px;
+    border-radius: 5px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+.back-btn { background: #6c757d; color: #fff; }
+.next-btn { background: #0a3d62; color: #fff; }
+
+/* STEP CONTENT */
+.step-content { display: none; }
+.step-content.active { display: block; }
+
+/* FOOTER */
+.footer {
+    margin-top: 60px;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    padding-bottom: 20px;
+}
+</style>
+</head>
+
+<body>
+{% if mode=="edit" %}
+<div class="header">BuildCrew
+    <a href="/back"><i class="fa-solid fa-right-from-bracket"></i></a>
+</div>
+{% else %}
+<div class="header">BuildCrew</div>
+{% endif %}
+
+<div class="wrapper">
+
+<!-- STEPS -->
+<div class="steps">
+    <div class="step active" onclick="goToStep(0)">1. Company Details</div>
+    <div class="step" onclick="goToStep(1)">2. Contact Person</div>
+    <div class="step" onclick="goToStep(2)">3. Account Setup</div>
+</div>
+
+
+<main>
+{% if mode == "register" %}
+<form id="companyForm" action="/company_register" method="post" enctype="multipart/form-data">
+{% elif mode == "edit" %}
+<form id="companyForm" action="/company_profile" method="post" enctype="multipart/form-data">
+{% endif %}
+
+<div class="section">
+
+<!-- STEP 1 -->
+<div class="step-content active">
+<div class="section-title">🏢 Company Profile</div>
+<div class="card">
+
+<div class="logo-box">
+    <div class="logo-preview">Company Logo</div>
+    <label class="logo-btn">
+        Upload Logo
+        <input type="file" name="logo" accept="image/*" hidden>
+    </label>
+</div>
+
+<div class="form-group">
+    <label>Company Name</label>
+    <input type="text" name="companyname" value="{{result.companyname | default('')}}" placeholder="Eg: ABC Constructions Pvt Ltd">
+</div>
+
+<div class="form-group">
+    <label>Company Type</label>
+    <select name="company_type" >
+        <option value="">Select Company Type</option>
+        <option value="Builder"{{ 'selected' if result.get('company_type') == 'Builder' else '' }}>Builder</option>
+        <option value="Contractor" {{ 'selected' if result.get('company_type') == 'Contractor' else '' }}>Contractor</option>
+        <option value="Subcontractor" {{ 'selected' if result.get('company_type') == 'Subcontractor' else '' }}>Subcontractor</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Years in Business</label>
+    <input type="number" name="years_in_business" value="{{result.years_in_business | default('')}}" min="0" placeholder="Eg: 10">
+</div>
+
+<div class="form-group">
+    <!-- {% set project = result['project_types[]'] %} -->
+    {% set project_types = result.get('project_types', '').split(',') %}
+
+    <label>Project Types</label>
+    <div class="project-types">
+        <label>
+            <input type="checkbox"
+                   name="project_types[]"
+                   value="Residential"
+                   {% if 'Residential' in project_types %}checked{% endif %}>
+            <span>Residential</span>
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   name="project_types[]"
+                   value="Commercial"
+                   {% if 'Commercial' in project_types %}checked{% endif %}>
+            <span>Commercial</span>
+        </label>
+
+        <label>
+            <input type="checkbox"
+                   name="project_types[]"
+                   value="Infrastructure"
+                   {% if 'Infrastructure' in project_types %}checked{% endif %}>
+            <span>Infrastructure</span>
+        </label>
+    </div>
+    <input type="hidden" name="project_types" id="projectTypesHidden">
+
+</div>
+
+<div class="form-group">
+    <label>Workforce Strength</label>
+    <input type="number" min="0" name="workers" value="{{result.workers | default('')}}" placeholder="Eg:50">
+</div>
+
+
+<div class="form-group">
+    <label>No of Projects Handled</label>
+    <input type="number" min="0" name="projects_done" value="{{result.projects_done | default('')}}" placeholder="Eg:50">
+</div>
+
+
+<div class="form-group">
+    <label>Short Description</label>
+    <textarea placeholder="Brief description about your company (2–3 lines)" name="description">{{ result.description | default('') }}</textarea>
+</div>
+
+<div class="actions">
+    <span></span>
+    <button type="button" class="next-btn" onclick="nextStep()">Save & Continue</button>
+</div>
+
+</div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-content">
+<div class="section-title">🏢 Company Contact</div>
+<div class="card">
+
+<div class="form-group">
+    <label>City</label>
+    <input type="text" name="city" value="{{result.city | default('')}}" placeholder="Eg: Chennai">
+</div>
+
+<div class="form-group">
+    <label>Office Address</label>
+    <textarea placeholder="Full office address" name="address" >{{result.address | default('')}}</textarea>
+</div>
+
+<div class="form-group">
+    <label>Contact Person Name</label>
+    <input type="text" name="contact_person" value="{{result.contact_person | default('')}}" placeholder="Name">
+</div>
+
+<div class="form-group">
+    <label>Contact Person Mobile</label>
+    <input type="tel" name="contact_person_no" value="{{result.contact_person_no | default('')}}" placeholder="Mobile">
+</div>
+
+<div class="actions">
+    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+    <button type="button" class="next-btn" onclick="nextStep()">Save & Next</button>
+</div>
+
+</div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-content">
+<div class="section-title">🏢 Account Setup</div>
+<div class="card">
+
+<div class="form-group">
+    <label>Official Email ID</label>
+    <input type="email" name="office_mail" value="{{result.office_mail | default('')}}" placeholder="Eg: hr@company.com">
+</div>
+
+{% if mode == "register" %}
+    <div class="form-group">
+        <label>Create Password</label>
+        <input name="password" type="password"
+            placeholder="Minimum 8 characters with uppercase & special character">
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Password</label>
+        <input name="cnfrm_pass" type="password">
+    </div>
+{% endif %}
+
+<div class="actions">
+    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+    <button type="submit"
+            class="next-btn"
+            name="action"
+            value="{{ 'register' if mode == 'register' else 'update' }}">
+        {{ "Submit" if mode == "register" else "Update Profile" }}
+    </button>
+</div>
+
+</div>
+</div>
+
+</div>
+</form>
+</main>
+
+
+<div class="footer">© 2025 VEDSP Inventive Private Limited. All rights reserved.</div>
+
+</div>
+
+<script>
+let currentStep = 0;
+const steps = document.querySelectorAll(".step-content");
+const headers = document.querySelectorAll(".step");
+
+function showStep(index){
+    steps.forEach((s,i)=>s.classList.toggle("active",i===index));
+    headers.forEach((h,i)=>h.classList.toggle("active",i===index));
+}
+
+function nextStep(){ if(currentStep<2){ currentStep++; showStep(currentStep);} }
+function prevStep(){ if(currentStep>0){ currentStep--; showStep(currentStep);} }
+function goToStep(i){ currentStep=i; showStep(i); }
+
+// document.getElementById("companyForm").addEventListener("submit",e=>{
+//     e.preventDefault();
+//     // alert("Profile updated successfully ✅");
+// });
+
+document.getElementById("companyForm").addEventListener("submit", async () => {
+    const checked = [...document.querySelectorAll(
+        'input[name="project_types[]"]:checked'
+    )].map(cb => cb.value);
+
+    document.getElementById("projectTypesHidden").value = checked.join(",");
+
+    try {
+        const res = await fetch("/api/doctor/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ doctor_id, password })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+        alert(data.message);
+        return;
+        }
+    
+        alert(data.message);
+        window.location.href = "/company_login";
+
+    } catch (err) {
+        alert("Server error");
+    }
+});
+
+
+if(message){ alert(message); }
+
+</script>
+
+</body>
+</html>

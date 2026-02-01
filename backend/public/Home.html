@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BuildCrew</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* ===== HEADER ===== */
+
+        .header {
+            background: #0a3d62;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .header .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .header .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .header .nav .admin-link {
+            opacity: 0.75;
+        }
+
+        .header .nav .admin-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* ===== HERO ===== */
+
+        .hero {
+            padding: 70px 20px 60px;
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h2 {
+            margin-bottom: 15px;
+            font-size: clamp(26px, 6vw, 40px);
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 16px;
+            max-width: 700px;
+            margin: auto;
+            opacity: 0.95;
+            padding: 0 10px;
+        }
+
+        /* ===== SECTIONS ===== */
+
+        .section {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 16px;
+            background: transparent;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0a3d62;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* ===== ROLE CARDS ===== */
+
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .role-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 10px 30px rgba(10, 61, 98, 0.18);
+            text-align: center;
+        }
+
+        .role-card h3 {
+            color: #0a3d62;
+            margin-bottom: 10px;
+        }
+
+        .role-card p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .role-card a {
+            display: inline-block;
+            padding: 14px 22px;
+            background: #0a3d62;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            width: 100%;
+            max-width: 260px;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+
+        .step-box {
+            background: #fff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-box h4 {
+            color: #0a3d62;
+            margin-bottom: 10px;
+        }
+
+        /* ===== TRUST ===== */
+
+        .trust {
+            background: #eef4fb;
+            padding: 50px 16px;
+        }
+
+        .trust-grid {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .trust-box {
+            background: #fff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        .trust-box h4 {
+            color: #0a3d62;
+            margin-bottom: 10px;
+        }
+
+        /* ===== FOOTER ===== */
+
+        .footer {
+            background: #0a3d62;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        /* ================= MOBILE OPTIMIZATION ================= */
+
+        @media (max-width: 768px) {
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .hero {
+                padding: 60px 16px 50px;
+            }
+
+            .steps,
+            .role-cards,
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-width: 420px) {
+            .hero h2 {
+                line-height: 1.3;
+            }
+
+            .role-card a {
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>BuildCrew</h1>
+        <div class="nav">
+            <a href="/employee_login">Employee Login</a>
+            <a href="/company_login">Company Login</a>
+            <a href="/admin_login" class="admin-link">Admin</a>
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+        <h2>Verified Construction Workers. Trusted Companies.</h2>
+        <p>
+            A secure hiring platform for the construction industry — where workers are protected and companies hire with confidence.
+        </p>
+    </div>
+
+    <!-- ROLE SELECTION -->
+    <div class="section">
+        <div class="section-title">Get Started</div>
+        <div class="role-cards">
+            <div class="role-card">
+                <h3>For Workers</h3>
+                <p>Create your verified profile and get hired by trusted companies.</p>
+                <a href="/employee_register">Register as Employee</a>
+            </div>
+
+            <div class="role-card">
+                <h3>For Companies</h3>
+                <p>Find skilled construction workers after admin verification.</p>
+                <a href="/company_register">Register as Company</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section">
+        <div class="section-title">How It Works</div>
+        <div class="steps">
+            <div class="step-box">
+                <h4>1. Register</h4>
+                <p>Employees and companies create verified profiles.</p>
+            </div>
+            <div class="step-box">
+                <h4>2. Admin Review</h4>
+                <p>Admin verifies authenticity to protect all users.</p>
+            </div>
+            <div class="step-box">
+                <h4>3. Search & Request</h4>
+                <p>Companies search workers and send hire requests.</p>
+            </div>
+            <div class="step-box">
+                <h4>4. Contact Shared</h4>
+                <p>Contact details are shared only after admin approval.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRUST -->
+    <div class="trust">
+        <div class="section-title">Why Trust This Platform?</div>
+        <div class="trust-grid">
+            <div class="trust-box">
+                <h4>Admin Controlled</h4>
+                <p>No direct access. Every profile and request is reviewed.</p>
+            </div>
+            <div class="trust-box">
+                <h4>Worker Privacy</h4>
+                <p>Phone numbers are shared only after approval.</p>
+            </div>
+            <div class="trust-box">
+                <h4>Construction-Focused</h4>
+                <p>Built specifically for construction hiring — not generic jobs.</p>
+            </div>
+        </div>
+    </div>
+    <hr style="border:none;height:1px;background:#dbe4f0;margin:0;">
+
+    <!-- FOOTER -->
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited. All rights reserved.
+    </div>
+
+    <script>
+        if(message){ alert(message); }
+    </script>
+
+</body>
+
+</html>

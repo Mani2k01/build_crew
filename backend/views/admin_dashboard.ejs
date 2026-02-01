@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | BuildCrew</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        /* body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f3f6;
+        } */
+        
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #f1f3f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* background-color: red; */
+        }
+        /* HEADER */
+        
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            padding: 18px 40px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+        
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }  
+
+        /* WRAPPER */
+        
+        .wrapper-wide {
+            max-width: 1200px;
+            /* THIS fixes your issue */
+            margin: 30px auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+        /* STATS */
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
+        
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .stat-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+        }
+        
+        .stat-card h3 {
+            margin: 0;
+            color: #0a3d62;
+        }
+        
+        .stat-card p {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        /* FOOTER */
+        /* LISTS LAYOUT */
+        
+        .lists-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        /* CARD */
+        
+        .list-card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        /* HEADER */
+        
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .list-header h3 {
+            margin: 0;
+            color: #0a3d62;
+        }
+        
+        .list-header input {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+        /* BODY */
+        
+        .list-body {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        /* ITEM */
+        
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        
+        .list-item:hover {
+            background: #f3f6f8;
+        }
+        
+        .list-item img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        /* INFO */
+        
+        .info {
+            flex: 1;
+        }
+        
+        .info strong {
+            display: block;
+            font-size: 14px;
+        }
+        
+        .info span {
+            font-size: 12px;
+            color: #666;
+        }
+        /* STATUS */
+        
+        .status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .badge {
+            background: #e55039;
+            color: #fff;
+            border-radius: 12px;
+            padding: 2px 7px;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        .available {
+            background: #e6f7ec;
+            color: #1e7f44;
+        }
+        
+        .unavailable {
+            background: #fdecea;
+            color: #c0392b;
+        }
+
+
+        .filters {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 30px;
+            /* display: flex;
+            flex-direction: column; */
+        }
+        
+        .filters select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+
+        /* RESPONSIVE */
+        
+        @media (max-width: 900px) {
+            .lists-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .list-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        
+        .footer {
+            /* margin-top: 80px; */
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            padding: 20px 40px;
+            /* padding-bottom: 25px; */
+        }
+
+/* =========================
+   📱 MOBILE RESPONSIVE
+   ========================= */
+
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile Styles Only */
+@media (max-width: 768px) {
+
+    .header {
+        background: linear-gradient(135deg, #0a3d62, #144f82);
+        padding: 0 18px;
+        height: 64px;                 /* fixed height for alignment */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;          /* vertical centering */
+        color: #fff;
+    }
+
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+
+
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        cursor: pointer;
+        height: 42px;
+        width: 42px;
+    }
+
+
+
+    .nav {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 260px;
+        background: #0a3d62;
+        display: flex;
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 8px;                 /* spacing between links */
+        border-radius: 0 0 0 14px;
+        box-shadow: -6px 8px 18px rgba(0,0,0,0.25);
+        transform: translateX(100%);
+        transition: transform .25s ease;
+        z-index: 1000;
+    }
+
+
+    .nav a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+
+    .nav a.active {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .nav.show {
+        /* display: flex; */
+        transform: translateX(0);
+    }
+
+    /* Welcome card stacking */
+    .welcome-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .welcome-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .welcome-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .progress-box {
+        margin-top: 10px;
+    }
+
+    .action-grid {
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 20px;
+    }
+
+    .wrapper {
+        margin: 20px auto;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+
+/* small animation */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+
+/* ================= PROFILE POPOVER — MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+    .profile-popover {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 22px 18px 26px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.25);
+        animation: slideUp .25s ease-out;
+    }
+
+    .profile-popover::before {
+        display: none; /* remove little arrow */
+    }
+
+    .profile-top {
+        gap: 14px;
+        align-items: center;
+    }
+
+    .profile-top img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-top h4 {
+        font-size: 17px;
+    }
+
+    .profile-top p {
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        border-radius: 10px;
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    .logout-btn {
+        border-radius: 10px;
+        padding: 12px 0;
+    }
+
+}
+
+/* animation */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Admin Dashboard</h2>
+        <!-- Hamburger (mobile only) -->
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>        
+        <div class="nav" id="navMenu">
+            <a class="active" href="">Dashboard</a>
+            <a href="/users_approval">Approvals</a>
+            <a href="/hire_requests">Hire Requests</a>
+            <% if (count != 0) {%>
+                <a href="/work_request">Employee Work Requests <span class="badge"><%= count %></span></a>
+            <%} else {%>
+                <a href="/work_request">Employee Work Requests</a>
+            <% } %>
+            <a href="/">Logout</a>
+        </div>
+    </div>
+    <main>
+        <div class="wrapper-wide">
+            <% if(result) {%>
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Employees</h3>
+                    <p><%= result.employees %></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Companies</h3>
+                    <p><%= result.companies %></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Approvals</h3>
+                    <p><%= result.pending %></p>
+                </div>
+                <div class="stat-card">
+                    <h3>Hire Requests</h3>
+                    <p><%= result.request %></p>
+                </div>
+            </div>
+            <% } %>
+
+            <!-- LIST SECTION -->
+            <div class="lists-section">
+
+                <div class="filters">
+
+                    <select id="empTrade" >
+                        <option value="">Employee Trade</option>
+                        <option value="Mason">Mason</option>
+                        <option value="Electrician">Electrician</option>
+                        <option value="Design Engineer">Design Engineer</option>
+                    </select>
+
+                    <select id="empExperience" >
+                        <option value="">Experience</option>
+                        <option value="1">1+ Years</option>
+                        <option value="3">3+ Years</option>
+                        <option value="5">5+ Years</option>
+                    </select>
+
+                    <select  id="empCity" >
+                        <option value="">Employee Location</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                    </select>
+
+                </div>
+
+                <div class="filters">
+                    <select id="cmpYears">
+                        <option value="">Years In Buisness</option>
+                        <option value="1">1+ Years</option>
+                        <option value="3">3+ Years</option>
+                        <option value="5">5+ Years</option>
+                    </select>
+
+                    <select id="cmpType" >
+                        <option value="">Comapany Type</option>
+                        <option value="Builder">Builder</option>
+                        <option value="Contractor">Contractor</option>
+                        <option value="SUb Contractor">SUb Contractor</option>
+                        <option value="designing">designing</option>
+                    </select>
+
+                    <select id="cmpCity" >
+                        <option value="">Company Location</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                    </select>
+
+                </div>            
+                
+                <!-- EMPLOYEES -->
+                <div class="list-card">
+                    <div class="list-header">
+                        <h3>Employees</h3>
+                    </div>
+                    <% result.all_employees.forEach(employee => { %>
+                            <div class="list-body">
+                                <a href="/view_employee_profile/<%= employee.id %>" class="list-link">
+                                    <div class="list-item employee-item" data-field="<%= employee.Field %>"
+                                        data-experience="<%= employee.experience_year %>"
+                                        data-city="<%= employee.Address %>">
+                                        <img src="<%= employee.profile_pic %>">
+                                        <div class="info">
+                                            <strong><%= employee.Name %></strong>
+                                            <span><%= employee.Field %> | Experience : <%= employee.experience_year %> </span>
+                                            <span> | <%= employee.Address %></span>
+                                            <input type="text" name="user_id" value="<%= employee.id %>" hidden>
+                                        </div>
+                                        <!-- <span class="status available">{{employee[5]}}</span> -->
+                                    </div>
+                                </a>
+                            </div>
+                    <% }); %>
+                </div>
+
+                <!-- COMPANIES -->
+                <div class="list-card">
+                    <div class="list-header">
+                        <h3>Companies</h3>
+                    </div>
+
+                    <div class="list-body">   <!-- ONLY ONCE -->
+                        <% result.all_companies.forEach(company =>{ %>
+                        <a href="/view_company_profile/<%= company.id %>" class="list-link">
+                            <div class="list-item company-item"
+                                data-years="<%= company.years_in_business %>"
+                                data-type="<%= company.company_type %>"
+                                data-city="<%= company.city %>">
+
+                                <img src="<%= company.logo %>">
+                                <div class="info">
+                                    <strong><%= company.companyname %></strong>
+                                    <span><%= company.years_in_business %> yrs • <%= company['project_types[]'] %></span>
+                                    <span> | <%= company.city %></span>
+                                </div>
+                            </div>
+                        </a>
+                        <% }); %>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </main>
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited – Admin Panel
+    </div>
+
+    <script>
+
+        // employee filter
+        function filterEmployees() {
+            const trade = document.getElementById("empTrade").value;
+            const exp = document.getElementById("empExperience").value;
+            const city = document.getElementById("empCity").value;
+
+            document.querySelectorAll(".employee-item").forEach(item => {
+                const empExp = parseInt(item.dataset.experience || 0);
+                const matchExp = !exp || empExp >= parseInt(exp);
+                const matchTrade = !trade || item.dataset.field === trade;
+                // const matchExp = !exp || item.dataset.experience === exp;
+                const matchCity = !city || item.dataset.city.includes(city);
+
+                item.style.display = (matchTrade && matchExp && matchCity) ? "flex" : "none";
+            });
+        }
+
+        document.querySelectorAll("#empTrade, #empExperience, #empCity")
+            .forEach(select => select.addEventListener("change", filterEmployees));
+
+        // company filter    
+
+        function filterCompanies() {
+        const minYears = document.getElementById("cmpYears").value;
+        const type = document.getElementById("cmpType").value;
+        const city = document.getElementById("cmpCity").value;
+
+        document.querySelectorAll(".company-item").forEach(item => {
+
+            const companyYears = Number(item.dataset.years || 0);
+            const companyType = item.dataset.type || "";
+            const companyCity = item.dataset.city || "";
+
+            // ✅ SAFE years check
+            let matchYears = true;
+            if (minYears !== "") {
+                matchYears = companyYears >= Number(minYears);
+            }
+
+            const matchType = !type || companyType === type;
+            const matchCity = !city || companyCity === city;
+
+            item.style.display =
+                (matchYears && matchType && matchCity) ? "flex" : "none";
+        });
+    }
+
+    document.querySelectorAll("#cmpYears, #cmpType, #cmpCity")
+        .forEach(select => select.addEventListener("change", filterCompanies));
+          
+
+    setTimeout(() => {
+        const alerts = document.querySelectorAll(".alert");
+        alerts.forEach(a => a.remove());
+    }, 3000);
+
+
+
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("navMenu");
+
+        hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hire Request Approvals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #f1f3f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* background-color: red; */
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            padding: 18px 40px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }  
+
+        .wrapper-wide {
+            max-width: 1200px;
+            /* THIS fixes your issue */
+            margin: 30px auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+        
+        .request-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+        }
+        
+        .request-card h3 {
+            margin: 0;
+            color: #0a3d62;
+        }
+        
+        .actions button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .approve {
+            background: #28a745;
+            color: #fff;
+        }
+        
+        .reject {
+            background: #dc3545;
+            color: #fff;
+        }
+        
+        .nav a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+        
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer {
+            /* margin-top: 80px; */
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            padding: 20px 40px;
+            /* padding-bottom: 25px; */
+        }
+
+/* =========================
+   📱 MOBILE RESPONSIVE
+   ========================= */
+
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile Styles Only */
+@media (max-width: 768px) {
+
+    .header {
+        background: linear-gradient(135deg, #0a3d62, #144f82);
+        padding: 0 18px;
+        height: 64px;                 /* fixed height for alignment */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;          /* vertical centering */
+        color: #fff;
+    }
+
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+
+
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        cursor: pointer;
+        height: 42px;
+        width: 42px;
+    }
+
+
+
+    .nav {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 260px;
+        background: #0a3d62;
+        display: flex;
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 8px;                 /* spacing between links */
+        border-radius: 0 0 0 14px;
+        box-shadow: -6px 8px 18px rgba(0,0,0,0.25);
+        transform: translateX(100%);
+        transition: transform .25s ease;
+        z-index: 1000;
+    }
+
+
+    .nav a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+
+    .nav a.active {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .nav.show {
+        /* display: flex; */
+        transform: translateX(0);
+    }
+
+    /* Welcome card stacking */
+    .welcome-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .welcome-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .welcome-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .progress-box {
+        margin-top: 10px;
+    }
+
+    .action-grid {
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 20px;
+    }
+
+    .wrapper {
+        margin: 20px auto;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+
+/* small animation */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+
+/* ================= PROFILE POPOVER — MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+    .profile-popover {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 22px 18px 26px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.25);
+        animation: slideUp .25s ease-out;
+    }
+
+    .profile-popover::before {
+        display: none; /* remove little arrow */
+    }
+
+    .profile-top {
+        gap: 14px;
+        align-items: center;
+    }
+
+    .profile-top img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-top h4 {
+        font-size: 17px;
+    }
+
+    .profile-top p {
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        border-radius: 10px;
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    .logout-btn {
+        border-radius: 10px;
+        padding: 12px 0;
+    }
+
+}
+
+/* animation */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Hire Request Approvals</h2>
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>  
+        <div class="nav" id="navMenu">
+            <a href="/admin_dashboard">Dashboard</a>
+            <a href="/users_approval">Approvals</a>
+            <a class="active" href="">Hire Requests</a>
+            <a href="/work_request">Employee Work Requests</a>
+        </div>
+    </div>
+    <main>
+        <form action="/hire_requests" method="post">
+            <div class="wrapper-wide">
+
+                <% results.forEach(function(req){ 
+                    const request_id = req.request_id;
+                    const created_at = req.created_at;
+                    const emp = req.emp_prfl || {};
+                    const cmp = req.cmp_prfl || {};
+                %>
+
+                    <div class="request-card">
+                        <h3>
+                            <%= cmp.companyname || '' %> → 
+                            <%= emp.Name || '' %> 
+                            (<%= emp.Field || '' %>)
+                        </h3>
+
+                        <p>
+                            Location: <%= cmp.city || '' %> | 
+                            Requested on: <%= created_at || '' %>
+                        </p>
+
+                        <input type="hidden" name="cmpny_name" value="<%= cmp.companyname || '' %>">
+                        <input type="hidden" name="emp_id" value="<%= emp.employee_id || '' %>">
+                        <input type="hidden" name="notification_id" value="<%= request_id %>">
+
+                        <div class="actions">
+                            <button class="approve" type="submit" name="action" value="approve">
+                                Approve & Share Contact
+                            </button>
+                            <button class="reject" type="submit" name="action" value="reject">
+                                Reject
+                            </button>
+                        </div>
+                    </div>
+
+                <% }) %>
+
+            </div>
+        </form>
+
+    </main>
+
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited – Admin Panel
+    </div>
+
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("navMenu");
+
+        hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+    </script>
+</body>
+
+</html>

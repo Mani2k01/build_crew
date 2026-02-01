@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+        }
+        /* ===== HEADER ===== */
+
+        .header {
+            background: #0a3d62;
+            padding: 18px 40px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            font-weight: 600;
+        }
+        .header a{
+            margin-left:auto;
+            font-size:28px;
+            cursor:pointer;
+        }
+
+        .header a i {
+            color: #fff;
+            transition: 0.2s;
+        }
+        .header a i:hover {
+            /* color: #ffcccc; */
+            transform: scale(1.1);
+        }
+
+
+
+        /* ===== STEPS ===== */
+        
+        .steps {
+            display: flex;
+            margin: 30px 0;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 3px solid #ccc;
+            color: #888;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .step.active {
+            border-color: #0a3d62;
+            color: #0a3d62;
+        }
+        
+        .step:hover {
+            background: #dbeafe;
+        }
+        /* ===== WRAPPER ===== */
+        
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto 60px auto;
+            padding: 0 20px;
+        }
+        /* ===== CARD ===== */
+        
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        /* ===== SECTION ===== */
+        
+        .section {
+            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 8px;
+            background: #f9fafc;
+            border: 1px solid #e5e9f0;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0a3d62;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        /* ===== FORM GROUP ===== */
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+        /* ===== PHOTO ===== */
+        
+        .photo-box {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .photo-preview {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #eef4fb, #ffffff);
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            color: #555;
+            border: 2px dashed #0a3d62;
+        }
+        
+        .photo-btn {
+            display: inline-block;
+            background: #0a3d62;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        /* ===== TAG INPUTS ===== */
+        
+        .tag-input-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #fdfefe;
+            border: 1.5px dashed #ccc;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background: #0a3d62;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tag span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        /* ===== AVAILABILITY ===== */
+        
+        .availability-cards {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .avail-card {
+            flex: 1;
+            padding: 16px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+        
+        .avail-card input {
+            display: none;
+        }
+        
+        .avail-card input:checked+span {
+            font-weight: 700;
+            color: #0a3d62;
+        }
+        
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .actions button {
+            background: #0a3d62;
+            color: #fff;
+            padding: 12px 30px;
+            font-size: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }  
+
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            padding-bottom: 20px;
+        }
+        
+        .info-note {
+            background: #eef4fb;
+            border-left: 4px solid #0a3d62;
+            padding: 14px;
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 25px;
+        }
+        
+        .upload-box {
+            padding: 18px;
+            border: 2px dashed #0a3d62;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #0a3d62;
+            margin-bottom: 15px;
+        }
+        
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        
+        .preview-item {
+            position: relative;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            text-align: center;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .file-name {
+            font-size: 12px;
+            margin-top: 8px;
+            word-break: break-word;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+        }
+        
+        .experience-section {
+            margin-top: 25px;
+        }
+        
+        .experience-card {
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #e5e9f0;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        
+        .experience-card h4 {
+            margin: 0 0 20px;
+            font-size: 16px;
+            color: #0a3d62;
+            border-bottom: 1px solid #e5e9f0;
+            padding-bottom: 8px;
+        }
+        
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+        
+        .experience-grid .full {
+            grid-column: span 2;
+        }
+        
+        .add-exp-btn {
+            margin-top: 16px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px dashed #0d6efd;
+            background-color: #f8fbff;
+            color: #0d6efd;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .add-exp-btn:hover {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+        
+        .add-exp-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .remove-exp-btn {
+            margin-left: 10px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid #dc3545;
+            background-color: #fff5f5;
+            color: #dc3545;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .remove-exp-btn:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        
+        .experience-actions {
+            display: flex;
+            justify-content: space-between;
+            /* LEFT & RIGHT */
+            align-items: center;
+            margin-top: 20px;
+        }
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            }
+
+            .alert-success {
+            background: #e6f7ee;
+            color: #0a7a3c;
+            border-left: 5px solid #0a7a3c;
+            }
+
+            .alert-error {
+            background: #fdecea;
+            color: #a4281c;
+            border-left: 5px solid #a4281c;
+            }
+
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>BuildCrew</h1>
+        <a href="/view_employee_profile/{{emp_id}}"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
+
+    <main>
+        <div class="wrapper">
+
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+
+            <!-- STEP INDICATOR -->
+            <div class="steps">
+                <div class="step active" onclick="showStep(0)">1. Personal Info</div>
+                <div class="step" onclick="showStep(1)">2. Professional Info</div>
+                <div class="step" onclick="showStep(2)">3. Certifications</div>
+                <div class="step" onclick="showStep(3)">4. Contact Info</div>
+            </div>
+
+            <!-- SINGLE FORM -->
+            <form id="employeeForm" action="/employee_profile" method="post" enctype="multipart/form-data">
+
+                <!-- PERSONAL INFO -->
+                <div class="card step-content">
+                    <h2>Personal Information</h2>
+
+                    <div class="section">
+                        <div class="section-title">📸 Profile & Identity</div>
+                        <div class="photo-box">
+                        <div class="photo-preview {% if result.profile_pic %}has-photo{% endif %}" id="photoPreview">
+                            Profile<br>Photo
+                        </div>
+                        <!-- <label class="photo-btn">
+                            Change Photo
+                            <input type="file" id="profilePicInput" name="profile_pic" accept="image/*" value="{{result.profile_pic.data if result.profile_pic else '' }}" hidden>
+                        </label> -->
+                    </div>
+
+                    <style>
+                    .photo-preview.has-photo {
+                        background-image: url('data:image/png;base64,{{ result.profile_pic.data if result.profile_pic else "" }}');
+                        background-size: cover;
+                        background-position: center;
+                        text-indent: -9999px; /* hide text */
+                    }
+                    </style>
+
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="Name" placeholder="Name" value="<%= result.Name || '' %>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" value="<%= result.dob || '' %>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select name="Gender" required>
+                                <option value="">Gender</option>
+                                <option value="Male" <%= result && result.Gender === 'Male' ? 'selected' : '' %>>Male</option>
+                                <option value="Female" <%= result && result.Gender === 'Female' ? 'selected' : '' %>>Female</option>
+                                <option value="Other" <%= result && result.Gender === 'Other' ? 'selected' : '' %>>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Aadhar No</label>
+                            <input type="text" name="Aadhar" value="<%= result.Aadhar || '' %>" placeholder="Aadhar no" readonly>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">📍 Location & Communication</div>
+                        <div class="form-group">
+                            <label>City / Area</label>
+                            <input type="text" name="Address" placeholder="Full Address With City" value="<%= result.Address || '' %>" readonly>
+                        </div>
+                        <% const languages = result?.Languages || ''; %>
+
+                        <div class="form-group">
+                            <label>Languages Known</label>
+
+                            <select name="Language" id="languageSelect" disabled>
+                                <option value="">Select language</option>
+                                <option value="English">English</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Kannada">Kannada</option>
+                            </select>
+                             <div class="tag-input-wrapper" id="languageTags"></div>
+                            <!-- {% if languages %}
+                                <div class="selected-languages">
+                                    <strong>Selected:</strong> {{ languages }}
+                                </div>
+                            {% endif %} -->
+
+                            <input type="hidden" name="Languages" id="languageHidden" value="<%= languages %>">
+                        </div>
+
+                    </div>
+                    <div class="actions">
+                        <button type="button" onclick="nextStep()">Next</button>
+                    </div>
+                </div>
+
+                <!-- PROFESSIONAL INFO -->
+                <div class="card step-content" style="display:none">
+                    <h2>Professional Information</h2>
+
+                    <div class="section">
+                        <div class="section-title">🧱 Core Field Information</div>
+                        <div class="form-group">
+                            <label>Primary Field</label>
+                            <select name="Field" required>
+                                <option value="">Select Field</option>
+                                <option value="Electrician" <%= result && result.Field === 'Electrician' ? 'selected' : '' %>>Electrician</option>
+                                <option value="Plumber" <%= result && result.Field === 'Plumber' ? 'selected' : '' %>>Plumber</option>
+                                <option value="Carpenter" <%= result && result.Field === 'Carpenter' ? 'selected' : '' %>>Carpenter</option>
+                                <option value="Helper" <%= result && result.Field === 'Helper' ? 'selected' : '' %>>Helper</option>
+                                <option value="Engineer" <%= result && result.Field === 'Engineer' ? 'selected' : '' %>>Engineer</option>
+                                <option value="Design Engineer" <%= result && result.Field === 'Design Engineer' ? 'selected' : '' %>>Design Engineer</option>
+                                <option value="Soil Engineer" <%= result && result.Field === 'Soil Engineer' ? 'selected' : '' %>>Soil Engineer</option>
+                                <option value="Architect" <%= result && result.Field === 'Architect' ? 'selected' : '' %>>Architect</option>
+                                <option value="Site Supervisor" <%= result && result.Field === 'Site Supervisor' ? 'selected' : '' %>>Site Supervisor</option>
+                            </select>
+                        </div>
+                        <!-- Experience -->
+
+                        <div class="form-group">
+                            <label>Total Experience (Years)</label>
+                            <input type="number" id="totalExp" name="experience_year" min="0" max="50" placeholder="Eg: 2" readonly>
+                        </div>
+
+                        <div id="experienceContainer" class="experience-section"></div>
+                        <div class="experience-actions">
+                            <button type="button" id="addExperienceBtn" class="add-exp-btn hidden">
+                                + Add Experience
+                            </button>
+
+                            <button type="button" id="removeExperienceBtn" class="remove-exp-btn hidden">
+                                − Remove Experience
+                            </button>
+                        </div>
+                        <br>
+
+
+                        <div class="form-group">
+                            <label>Skill Level</label>
+                            <select name="Skill" disabled>
+                                <option value="">Select Skill Level</option>
+                                <option value="Beginner" <%= result && result.Skill === 'Beginner' ? 'selected' : '' %>>Beginner</option>
+                                <option value="Intermediate" <%= result && result.Skill === 'Intermediate' ? 'selected' : '' %>>Intermediate</option>
+                                <option value="Expert" <%= result && result.Skill === 'Expert' ? 'selected' : '' %>>Expert</option>
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">🛠 Skills & Tools</div>
+                        <div class="form-group">
+                            <label>Secondary Skills</label>
+                            <!-- {% set Skills = result.get('secondarySkills', '').split(',') %} -->
+                            <% const Skills = result?.secondarySkills || ''; %>
+                            <select name="SecondarySkill" id="skillsSelect" disabled>
+                                <option value="">Select a skill</option>
+                                <option value="Brickwork">Brickwork</option>
+                                <option value="Concrete Work">Concrete Work</option>
+                                <option value="Rebar Installation">Rebar Installation</option>
+                                <option value="Plastering">Plastering</option>
+                                <option value="Electrical Wiring" >Electrical Wiring</option>
+                                <option value="Plumbing" >Plumbing</option>
+                                <option value="Formwork" >Formwork</option>
+                                <option value="Tile Work" >Tile Work</option>
+                            </select>
+
+                            <!-- {% if Skills %}
+                                <div class="selected-languages">
+                                    <strong>Selected:</strong> {{ Skills }}
+                                </div>
+                            {% endif %} -->
+
+                            <div class="tag-input-wrapper" id="skillsTags"></div>
+                            <input type="hidden" name="secondarySkills" id="skillsHidden" value="<%= Skills %>">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tools / Machinery Handled</label>
+                            <!-- {% set Tools = result.get('Tool', '').split(',') %} -->
+                            <% const Tools = result?.Tools || ''; %>
+                            <select name="Tool" id="toolsSelect" disabled>
+                                <option value="">Select tools</option>
+                                <option value="Power Tools">Power Tools</option>
+                                <option value="Concrete Mixer" >Concrete Mixer</option>
+                                <option value="Cutting Machine" >Cutting Machine</option>
+                                <option value="Welding Machine" >Welding Machine</option>
+                                <option value="Crane / JCB" >Crane / JCB</option>
+                            </select>
+
+                            <!-- {% if Tools %}
+                                <div class="selected-languages">
+                                    <strong>Selected:</strong> {{ Tools }}
+                                </div>
+                            {% endif %} -->
+
+                            <div class="tag-input-wrapper" id="toolsTags"></div>
+                            <input type="hidden" name="Tools" name="toolsHandled" id="toolsHidden" value="<%= Tools %>"> 
+                        </div>
+                    </div>
+
+                    <div class="section" style="box-shadow: 0 6px 18px rgba(68, 120, 159, 0.35);">
+                        <div class="form-group">
+                            <label>Current Company Name</label>
+                            <input type="text" name="Current_Company" placeholder="Current working Company Name" value="<%= result.Current_Company || '' %>" readonly>
+                        </div>
+                        <div class="section-title">📅 Availability</div>
+
+                        <!-- Availability -->
+                        <div class="form-group ">
+                            <div class="availability-cards">
+                                <label class="avail-card">
+                                    <input type="radio" name="Availability" value="Available" readonly
+                                        <%= result?.Availability === 'Available' ? 'checked' : '' %> >
+                                    <span>✅ Currently working</span>
+                                </label>
+
+                                <label class="avail-card">
+                                    <input type="radio" name="Availability" value="Not Available" readonly
+                                       <%= result && result.Availability === 'Not Available' ? 'checked' : '' %> >
+                                    <span>⛔ Not working</span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="actions">
+                        <button type="button" onclick="prevStep()">Back</button>
+                        <button type="button" onclick="nextStep()">Next</button>
+                    </div>
+                </div>
+
+                <!-- CERTIFICATIONS -->
+                <div class="card step-content" style="display:none">
+                    <div class="section">
+                        <div class="section-title">📜 Certifications</div>
+                        <div class="form-group">
+                            <!-- {% set certificate = result.get('Certificates', '').split(',') %} -->
+                            <% const Certificates = result?.Certificates || ''; %>
+                            <label>Certificate Name</label>
+                            <select name="Certificate" id="certSelect" disabled>
+                                <option value="">Select certificate</option>
+                                <option value="Safety Training" >Safety Training</option>
+                                <option value="Electrical License">Electrical License</option>
+                                <option value="Welding Certification" >Welding Certification</option>
+                                <option value="First Aid" >First Aid</option>
+                                <option value="PPE Training">PPE Training</option>
+                            </select>
+
+                            <!-- {% if Certificates %}
+                                <div class="selected-languages">
+                                    <strong>Selected:</strong> {{ Certificates }}
+                                </div>
+                            {% endif %} -->
+
+                            <div class="tag-input-wrapper" id="certTags"></div>
+                            <input type="hidden" name="Certificates" id="certNames" value="<%= Certificates %>">
+                        </div>
+
+                        <label class="upload-box">Click to upload certificates
+                            <input type="file" name="Certfiles" id="certFiles" multiple accept=".pdf,image/*" hidden readonly>
+                        </label>
+
+                        <div class="preview-grid" id="previewGrid"></div>
+
+                    </div>
+                    <div class="actions">
+                        <button type="button" onclick="prevStep()">Back</button>
+                        <button type="button" onclick="nextStep()">Next</button>
+                    </div>
+                </div>
+
+                <!-- CONTACT INFO -->
+                <div class="card step-content" style="display:none">
+                    <div class="section">
+                        <div class="section-title">📞 Contact Information</div>
+                        <div class="info-note">
+                            🔒 Your contact details are private. Shared only after admin approval.
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input name="Mobile" type="text" value="<%= result.Mobile || '' %>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email ID</label>
+                            <input name="Email" type="email" value="<%= email || '' %>" readonly>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button type="button" onclick="prevStep()">Back</button>
+                        <!-- <button type="submit">Save</button> -->
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        
+    </main>
+
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited. All rights reserved.
+    </div>
+
+    <script id="experience-data" type="application/json">
+        <%- JSON.stringify(experience || []) %>
+    </script>
+
+    <script>
+
+        const photoInput = document.getElementById('profilePicInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        // let existingExperience = [];
+        const existingExperience = JSON.parse(
+            document.getElementById("experience-data").textContent
+        );
+
+
+        // STEP NAVIGATION
+        const steps = document.querySelectorAll('.step');
+        const contents = document.querySelectorAll('.step-content');
+        let currentStep = 0;
+
+        function showStep(index) {
+            currentStep = index;
+            contents.forEach((c, i) => c.style.display = i === index ? 'block' : 'none');
+            steps.forEach((s, i) => s.classList.toggle('active', i === index));
+        }
+
+        function nextStep() {
+            if (currentStep < contents.length - 1) showStep(currentStep + 1);
+        }
+
+        function prevStep() {
+            if (currentStep > 0) showStep(currentStep - 1);
+        }
+
+        // INIT DROPDOWN TAGS
+        function initDropdownTags(selectId, tagsId, hiddenId, maxItems = 10) {
+            const select = document.getElementById(selectId);
+            const tagsContainer = document.getElementById(tagsId);
+            const hiddenInput = document.getElementById(hiddenId);
+
+            let values = [];
+
+            // 🔹 PRELOAD EXISTING VALUES
+            if (hiddenInput.value.trim() !== "") {
+                values = hiddenInput.value.split(",");
+                values.forEach(addTag);
+            }
+
+            select.addEventListener("change", function() {
+                const value = this.value;
+                if (!value || values.includes(value) || values.length >= maxItems) {
+                    this.value = "";
+                    return;
+                }
+                values.push(value);
+                addTag(value);
+                updateHidden();
+                this.value = "";
+            });
+
+            function addTag(text) {
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.innerHTML = `${text} <span>&times;</span>`;
+                tag.querySelector("span").onclick = function() {
+                    values = values.filter(v => v !== text);
+                    tag.remove();
+                    updateHidden();
+                };
+                tagsContainer.appendChild(tag);
+            }
+
+            function updateHidden() {
+                hiddenInput.value = values.join(",");
+            }
+        }
+
+        initDropdownTags("languageSelect", "languageTags", "languageHidden", 5);
+        initDropdownTags("skillsSelect", "skillsTags", "skillsHidden", 8);
+        initDropdownTags("toolsSelect", "toolsTags", "toolsHidden", 8);
+        initDropdownTags("certSelect", "certTags", "certNames", 8);
+
+        // CERTIFICATE PREVIEW
+        const certInput = document.getElementById('certFiles');
+        const previewGrid = document.getElementById('previewGrid');
+
+        certInput.addEventListener("change", function() {
+            previewGrid.innerHTML = "";
+            Array.from(certInput.files).forEach(file => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (file.type.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        div.appendChild(img);
+                    } else {
+                        div.innerHTML = `<div class="file-name">${file.name}</div>`;
+                    }
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.onclick = () => div.remove();
+                    div.appendChild(removeBtn);
+                };
+                reader.readAsDataURL(file);
+                previewGrid.appendChild(div);
+            });
+        });
+        const totalExpInput = document.getElementById("totalExp");
+        const container = document.getElementById("experienceContainer");
+        const addBtn = document.getElementById("addExperienceBtn");
+        const removeBtn = document.getElementById("removeExperienceBtn");
+
+        let expCount = 0;
+        let baseExpCount = 0;
+
+        function createExperienceCard(data = {}) {
+            expCount++;
+
+            const card = document.createElement("div");
+            card.className = "experience-card";
+
+            card.innerHTML = `
+                <h4>Experience ${expCount}</h4>
+
+                <div class="experience-grid">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" name="company[]" value="${data.company || ''}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company Location</label>
+                        <input type="text" name="location[]" value="${data.location || ''}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Role</label>
+                        <input type="text" name="role[]" value="${data.role || ''}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>From (Month & Year)</label>
+                        <input type="month" class="fromDate" name="from[]" value="${data.from || ''}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>To (Month & Year)</label>
+                        <input type="month" class="toDate" name="to[]" value="${data.to || ''}" required>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Role Description</label>
+                        <input type="text" name="description[]" value="${data.description || ''}" required>
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        }
+
+
+
+        if (Array.isArray(existingExperience) && existingExperience.length > 0) {
+            container.innerHTML = "";
+            expCount = 0;
+            baseExpCount = existingExperience.length;
+
+            totalExpInput.value = existingExperience.length;
+
+            existingExperience.forEach(exp => {
+                createExperienceCard(exp);
+            });
+
+            updateButtonsVisibility();
+        }
+
+
+        totalExpInput.addEventListener("change", () => {
+            const years = parseInt(totalExpInput.value);
+
+            container.innerHTML = "";
+            expCount = 0;
+            baseExpCount = 0;
+
+            // addBtn.classList.add("hidden");
+            // removeBtn.classList.add("hidden");
+
+            if (isNaN(years) || years <= 0) {
+                updateButtonsVisibility();
+                return;
+            }
+            baseExpCount = years;
+            for (let i = 0; i < years; i++) {
+                createExperienceCard();
+            }
+            updateButtonsVisibility();
+        });
+
+        addBtn.addEventListener("click", () => {
+            createExperienceCard();
+
+            updateButtonsVisibility();
+        });
+
+        removeBtn.addEventListener("click", () => {
+            if (expCount <= baseExpCount) return;
+
+            container.removeChild(container.lastElementChild);
+            expCount--;
+
+            updateButtonsVisibility();
+        });
+
+
+        document.addEventListener("change", function(e) {
+            if (!e.target.classList.contains("toDate")) return;
+
+            const card = e.target.closest(".experience-card");
+            const fromInput = card.querySelector(".fromDate");
+
+            if (!fromInput.value || !e.target.value) return;
+
+            const from = new Date(fromInput.value + "-01");
+            const to = new Date(e.target.value + "-01");
+
+            if (to < from) {
+                alert("To date cannot be earlier than From date.");
+                e.target.value = "";
+                return;
+            }
+
+            const months =
+                (to.getFullYear() - from.getFullYear()) * 12 +
+                (to.getMonth() - from.getMonth()) + 1;
+
+            if (months > 12) {
+                alert("Each experience entry must be 1 year or less.");
+                e.target.value = "";
+            }
+        });
+
+        function updateButtonsVisibility() {
+            // Add button is visible only if base experiences exist
+            if (baseExpCount > 0) {
+                addBtn.classList.remove("hidden");
+            } else {
+                addBtn.classList.add("hidden");
+            }
+
+            // Remove button ONLY if extra cards exist
+            if (expCount > baseExpCount) {
+                removeBtn.classList.remove("hidden");
+            } else {
+                removeBtn.classList.add("hidden");
+            }
+        }
+
+        // dealing with part by part showing
+        let initialStep = Number("<%= step || 0 %>");
+        showStep(initialStep);
+
+
+        document.getElementById("employeeForm").addEventListener("submit", function () {
+        const experiences = [];
+
+        document.querySelectorAll("#experienceContainer .experience-card").forEach(card => {
+            const company = card.querySelector('input[name="company[]"]')?.value || "";
+            const role = card.querySelector('input[name="role[]"]')?.value || "";
+            const from = card.querySelector('input[name="from[]"]')?.value || "";
+            const to = card.querySelector('input[name="to[]"]')?.value || "";
+            const description = card.querySelector('input[name="description[]"]')?.value || "";
+
+            if (company || role || from || to || description) {
+                experiences.push({
+                    company,
+                    role,
+                    from,
+                    to,
+                    description
+                });
+            }
+        });
+
+        document.getElementById("experienceHidden").value =
+            JSON.stringify(experiences);
+    });
+
+
+        function preloadTags(csv, tagsId, hiddenId) {
+            if (!csv) return;
+            const values = csv.split(",");
+            const container = document.getElementById(tagsId);
+            const hidden = document.getElementById(hiddenId);
+
+            hidden.value = csv;
+
+            values.forEach(val => {
+                const tag = document.createElement("div");
+                tag.className = "tag";
+                tag.innerHTML = `${val} <span>&times;</span>`;
+                tag.querySelector("span").onclick = () => {
+                    tag.remove();
+                    hidden.value = hidden.value
+                        .split(",")
+                        .filter(v => v !== val)
+                        .join(",");
+                };
+                container.appendChild(tag);
+            });
+        }
+
+        // for photo section
+        photoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                photoPreview.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '50%';
+                photoPreview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        setTimeout(() => {
+            const alerts = document.querySelectorAll(".alert");
+            alerts.forEach(a => a.remove());
+        }, 3000);
+
+
+
+</script>
+</body>
+
+</html>

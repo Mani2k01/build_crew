@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+        }
+        /* ===== HEADER ===== */
+        
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+        
+        .header button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        /* ===== WRAPPER ===== */
+        
+        .wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        /* ===== WELCOME CARD ===== */
+        
+        .welcome-card {
+            background: linear-gradient(135deg, #ffffff, #eef4fb);
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 12px 30px rgba(10, 61, 98, 0.25);
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+        
+        .welcome-card h2 {
+            margin-top: 0;
+            color: #0a3d62;
+            font-size: 28px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+        /* ===== PROFILE PROGRESS ===== */
+        
+        .progress-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .progress-box h3 {
+            margin-top: 0;
+            color: #0a3d62;
+        }
+        
+        .progress-bar {
+            height: 14px;
+            background: #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #0a3d62, #1e7fc1);
+        }
+        
+        .progress-box a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 22px;
+            background: #0a3d62;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        /* ===== SECTION ===== */
+        
+        .section {
+            margin-bottom: 45px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0a3d62;
+            margin-bottom: 25px;
+        }
+        /* ===== ACTION GRID ===== */
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        
+        .action-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, 0.2);
+        }
+        
+        .action-card h3 {
+            color: #0a3d62;
+            margin-top: 0;
+        }
+        
+        .action-card p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .action-card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #0a3d62;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }          
+        /* ===== PRIVACY ===== */
+        
+        .privacy-card {
+            background: #eef4fb;
+            border-left: 6px solid #0a3d62;
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+        /* ===== FOOTER ===== */
+        
+        .footer {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            padding: 20px 40px;
+            /* padding-bottom: 25px; */
+        }
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            }
+
+            .alert-success {
+            background: #e6f7ee;
+            color: #0a7a3c;
+            border-left: 5px solid #0a7a3c;
+            }
+
+            .alert-error {
+            background: #fdecea;
+            color: #a4281c;
+            border-left: 5px solid #a4281c;
+            }
+
+        /* ===== RESPONSIVE ===== */
+        
+        @media (max-width: 900px) {
+            .welcome-card {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .nav {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            padding: 8px 18px;
+            border-radius: 8px;
+        }
+        
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .nav a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .badge {
+            background: #e55039;
+            color: #fff;
+            border-radius: 12px;
+            padding: 2px 7px;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        
+        .welcome-left {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .welcome-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0a3d62;
+        }
+        
+        .profile-wrapper {
+            position: relative;
+        }
+        /* Trigger */
+        
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .profile-menu img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        /* Popover card */
+        
+        .profile-popover {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: 260px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            padding: 14px;
+            display: none;
+            z-index: 999;
+            color: #000;
+        }
+        
+        .profile-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding-bottom: 12px;
+        }
+        
+        .profile-top img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-top h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .profile-top p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .profile-popover a,
+        .profile-popover button,
+        .profile-popover h4,
+        .profile-popover p {
+            color: #000;
+        }
+        /* FIXED button */
+        
+        .btn-outline {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 18px;
+            border: 1px solid #0a66c2;
+            color: #0a66c2;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 8px 0;
+        }
+        
+        .btn-outline:hover {
+            background: #eef3f8;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e6e6e6;
+        }
+        
+        .logout-btn {
+            width: 100%;
+            background-color: #ffffff;
+            border: 2px solid #d0d7de;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background-color: #f3f6f8;
+            border-color: #aab4be;
+        }
+        
+        .profile-popover::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            right: 18px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            transform: rotate(45deg);
+            box-shadow: -2px -2px 6px rgba(0, 0, 0, 0.05);
+        }
+        .progress {
+            width: var(--progress);
+            height: 100%;
+            transition: width 0.8s ease-in-out;
+            background: linear-gradient(90deg, #0a3d62, #1e7fc1);
+        }
+
+        /* ================= MOBILE NAV ================= */
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile Styles Only */
+@media (max-width: 768px) {
+
+    .header {
+        padding: 16px 18px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .hamburger {
+        display: block;
+        color: white;
+    }
+
+    .nav {
+        position: absolute;
+        top: 70px;
+        right: 15px;
+        background: #0a3d62;
+        flex-direction: column;
+        width: 220px;
+        border-radius: 10px;
+        padding: 15px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        animation: fadeIn .2s ease-in-out;
+    }
+
+    .nav a {
+        padding: 12px;
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    .nav a.active {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .nav.show {
+        display: flex;
+    }
+
+    /* Welcome card stacking */
+    .welcome-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .welcome-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .welcome-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .progress-box {
+        margin-top: 10px;
+    }
+
+    .action-grid {
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 20px;
+    }
+
+    .wrapper {
+        margin: 20px auto;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+
+/* small animation */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+
+/* ================= PROFILE POPOVER — MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+    .profile-popover {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 22px 18px 26px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.25);
+        animation: slideUp .25s ease-out;
+    }
+
+    .profile-popover::before {
+        display: none; /* remove little arrow */
+    }
+
+    .profile-top {
+        gap: 14px;
+        align-items: center;
+    }
+
+    .profile-top img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-top h4 {
+        font-size: 17px;
+    }
+
+    .profile-top p {
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        border-radius: 10px;
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    .logout-btn {
+        border-radius: 10px;
+        padding: 12px 0;
+    }
+
+}
+
+/* animation */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+    </style>
+</head>
+
+<body>
+<!-- mobile view -->
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Employee Dashboard</h1>
+        <!-- Hamburger (mobile only) -->
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>
+
+        <div class="nav" id="navMenu">
+            <a href="/employee_dashboard" class="active">Dashboard</a>
+            <% if(approved_profile == 1){%>
+                <a href="/make_request"> Make Work Requests</a>
+            <% } %>
+            <a href="/employee_notifications">
+            Notifications <span class="badge"><%= count %></span>
+        </a>
+            <div class="profile-wrapper">
+                <div class="profile-menu" id="profileToggle">
+                    <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" alt="Profile Photo">
+                    <span><%= profile_data.Name || "USER" %></span>
+                </div>
+
+                <div class="profile-popover" id="profilePopover">
+                    <div class="profile-top">
+                        <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" alt="Profile Photo">
+                        <div>
+                            <h4><%= profile_data.Name || "USER" %></h4>
+                            <p><%= profile_data.Field || "" %></p>
+                        </div>
+                    </div>
+
+                    <a href="/employee_profile" class="btn-outline">View profile</a>
+
+                    <div class="divider"></div>
+
+                    <a href="/logout" class="btn-outline">Sign out</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <main>
+        <div class="wrapper">
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            <!-- WELCOME -->
+            <div class="welcome-card">
+                <div class="welcome-left">
+                    <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" class="welcome-avatar">
+                    <div>
+                        <h2>Welcome, <%= profile_data.Name || "USER" %> 👋</h2>
+                        <p>
+                            Complete your profile to get noticed by verified construction companies.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="progress-box">
+                    <h3>Profile Completion</h3>
+                    <div class="progress-bar">
+                        <div class="progress" style="--progress:<%= profile %>%"></div>
+                    </div>
+                    <p><strong><%= profile %>%</strong> completed</p>
+                    <a href="/employee_profile">Complete Profile</a>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="section">
+                <div class="section-title">Manage Your Profile</div>
+
+                <div class="action-grid">
+
+                    <div class="action-card">
+                        <h3>Personal Information</h3>
+                        <p>Basic personal details visible only to admin.</p>
+                        <a href="/employee_personal">Edit</a>
+                    </div>
+
+                    <div class="action-card">
+                        <h3>Professional Details</h3>
+                        <p>Your skills, trade, experience and tools.</p>
+                        <a href="/employee_professional">Edit</a>
+                    </div>
+
+                    <div class="action-card">
+                        <h3>Certifications</h3>
+                        <p>Add certifications to build trust.</p>
+                        <a href="/employee_certifications">Edit</a>
+                    </div>
+
+                    <div class="action-card">
+                        <h3>Contact Information</h3>
+                        <p>Your phone and email (shared only after approval).</p>
+                        <a href="/employee_contact">Edit</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PRIVACY -->
+            <div class="section">
+                <div class="section-title">Privacy & Safety</div>
+                <div class="privacy-card">
+                    🔒 Your contact details are shared with companies
+                    <strong>only after admin-approved hire requests</strong>.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited. All rights reserved.
+    </div>
+
+
+    <script>
+        const toggle = document.getElementById("profileToggle");
+        const popover = document.getElementById("profilePopover");
+
+        toggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            popover.style.display =
+                popover.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", () => {
+            popover.style.display = "none";
+        });
+
+        function goHome() {
+            window.location.href = "Home.html";
+        }
+
+        setTimeout(() => {
+            const alerts = document.querySelectorAll(".alert");
+            alerts.forEach(a => a.remove());
+        }, 3000);
+
+
+
+        const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", (e) => {
+    e.stopPropagation();
+    navMenu.classList.toggle("show");
+});
+
+document.addEventListener("click", () => {
+    navMenu.classList.remove("show");
+});
+
+
+    </script>
+
+
+</body>
+
+</html>

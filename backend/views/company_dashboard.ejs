@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Company Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f1f3f6;
+            color: #333;
+        }
+        /* ===== HEADER ===== */
+        
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            margin: 0;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 8px;
+        }
+        
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+        }
+        
+        .nav a:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        /* ===== WRAPPER ===== */
+        
+        .wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        /* ===== WELCOME CARD ===== */
+        
+        .welcome-card {
+            background: linear-gradient(135deg, #ffffff, #eef4fb);
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 12px 30px rgba(10, 61, 98, .25);
+            margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+        
+        .welcome-card h2 {
+            margin-top: 0;
+            color: #0a3d62;
+            font-size: 28px;
+        }
+        
+        .welcome-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+        /* ===== STATS ===== */
+        
+        .stats-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+        }
+        
+        .stat {
+            margin-bottom: 14px;
+            font-size: 15px;
+        }
+        
+        .stat strong {
+            color: #0a3d62;
+            font-size: 20px;
+        }
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }  
+
+        /* ===== SECTIONS ===== */
+        
+        .section {
+            margin-bottom: 45px;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #0a3d62;
+            margin-bottom: 25px;
+        }
+        /* ===== ACTION GRID ===== */
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        
+        .action-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 35px rgba(0, 0, 0, .2);
+        }
+        
+        .action-card h3 {
+            color: #0a3d62;
+            margin-top: 0;
+        }
+        
+        .action-card p {
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .action-card a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #0a3d62;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        /* ===== INFO ===== */
+        
+        .info-card {
+            background: #eef4fb;
+            border-left: 6px solid #0a3d62;
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 15px;
+        }
+        /* ===== FOOTER ===== */
+        
+        .footer {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            padding: 20px 40px;
+        }
+        /* ===== RESPONSIVE ===== */
+        
+        @media (max-width: 900px) {
+            .welcome-card {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .profile-wrapper {
+            position: relative;
+        }
+        /* Trigger */
+        
+        .profile-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        
+        .profile-menu img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        /* Popover card */
+        
+        .profile-popover {
+            position: absolute;
+            top: 58px;
+            right: 0;
+            width: 260px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+            padding: 14px;
+            display: none;
+            z-index: 999;
+            color: #000;
+        }
+        
+        .profile-top {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding-bottom: 12px;
+        }
+        
+        .profile-top img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .profile-top h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .profile-top p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .profile-popover a,
+        .profile-popover button,
+        .profile-popover h4,
+        .profile-popover p {
+            color: #000;
+        }
+        
+        .btn-outline {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 8px 0;
+            border-radius: 18px;
+            border: 1px solid #0a66c2;
+            color: #0a66c2;
+            font-weight: 600;
+            text-decoration: none;
+            margin: 8px 0;
+        }
+        
+        .btn-outline:hover {
+            background: #eef3f8;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e6e6e6;
+        }
+        
+        .logout-btn {
+            width: 100%;
+            background-color: #ffffff;
+            /* border: 2px solid #d0d7de; */
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #444;
+            cursor: pointer;
+            /* background-color: none; */
+            border: none;
+        }
+        
+        .logout-btn:hover {
+            background-color: #f3f6f8;
+            border-color: #aab4be;
+        }
+        
+        .profile-popover::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            right: 18px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            transform: rotate(45deg);
+            box-shadow: -2px -2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            }
+
+            .alert-success {
+            background: #e6f7ee;
+            color: #0a7a3c;
+            border-left: 5px solid #0a7a3c;
+            }
+
+            .alert-error {
+            background: #fdecea;
+            color: #a4281c;
+            border-left: 5px solid #a4281c;
+            }
+
+/* =========================
+   📱 MOBILE RESPONSIVE
+   ========================= */
+
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile Styles Only */
+@media (max-width: 768px) {
+
+    .header {
+        padding: 16px 18px;
+    }
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .hamburger {
+        display: block;
+        color: white;
+    }
+
+    .nav {
+        position: absolute;
+        top: 70px;
+        right: 15px;
+        background: #0a3d62;
+        flex-direction: column;
+        width: 220px;
+        border-radius: 10px;
+        padding: 15px;
+        display: none;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        animation: fadeIn .2s ease-in-out;
+    }
+
+    .nav a {
+        padding: 12px;
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    .nav a.active {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .nav.show {
+        display: flex;
+    }
+
+    /* Welcome card stacking */
+    .welcome-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .welcome-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .welcome-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .progress-box {
+        margin-top: 10px;
+    }
+
+    .action-grid {
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 20px;
+    }
+
+    .wrapper {
+        margin: 20px auto;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+
+/* small animation */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+
+/* ================= PROFILE POPOVER — MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+    .profile-popover {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 22px 18px 26px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.25);
+        animation: slideUp .25s ease-out;
+    }
+
+    .profile-popover::before {
+        display: none; /* remove little arrow */
+    }
+
+    .profile-top {
+        gap: 14px;
+        align-items: center;
+    }
+
+    .profile-top img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-top h4 {
+        font-size: 17px;
+    }
+
+    .profile-top p {
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        border-radius: 10px;
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    .logout-btn {
+        border-radius: 10px;
+        padding: 12px 0;
+    }
+
+}
+
+/* animation */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Company Dashboard</h1>
+        <!-- Hamburger (mobile only) -->
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div>        
+
+        <div class="nav" id="navMenu">
+            <a href="" class="active">Dashboard</a>
+            <a href="/search_workers">Search Workers</a>
+            <a href="/company_hire_requests">Hire Requests</a>
+
+            <!-- <div class="profile-menu">
+                <img src="company_logo.png" alt="Company Logo">
+                <span>ABC Constructions</span>
+            </div> -->
+            <div class="profile-wrapper">
+                <div class="profile-menu" id="profileToggle">
+                    <img src="company_logo.jpg" alt="Profile Photo">
+                    <span><%= result.companyname %></span>
+                </div>
+
+                <div class="profile-popover" id="profilePopover">
+                    <div class="profile-top">
+                        <img src="company_logo.jpg" alt="Profile Photo">
+                        <div>
+                            <h4><%= result.companyname %></h4>
+                        </div>
+                    </div>
+
+                    <a href="/company_profile" class="btn-outline">View profile</a>
+
+                    <div class="divider"></div>
+
+                    <button class="btn-outline" ><a href="/logout">Sign out </a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <div class="wrapper">
+            <% if (error) { %>
+                <div class="alert alert-error"><%= error %></div>
+            <% } %>
+
+            <% if (success) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+
+            <!-- WELCOME -->
+            <div class="welcome-card">
+                <div>
+                    <h2>Welcome, <%= result.companyname %>  </h2>
+                    <p>
+                        Search verified construction workers and send hire requests. Contact details are shared only after admin approval.
+                    </p>
+                </div>
+
+                <div class="stats-box">
+                    <div class="stat">Requests Sent: <strong><%= status_count.APPROVED + status_count.PENDING %></strong></div>
+                    <div class="stat">Approved: <strong><%= status_count.APPROVED %></strong></div>
+                    <div class="stat">Pending: <strong><%= status_count.PENDING %></strong></div>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="section">
+                <div class="section-title">Quick Actions</div>
+
+                <div class="action-grid">
+
+                    <div class="action-card">
+                        <h3>Approved Workers</h3>
+                        <p>View the Employees that allowed From the Admin Side.</p>
+                        <a href="/view_approved_employees">View</a>
+                    </div>
+
+
+                    <div class="action-card">
+                        <h3>Company Profile</h3>
+                        <p>Update your company details and logo.</p>
+                        <a href="/company_profile">Edit Profile</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- INFO -->
+            <div class="section">
+                <div class="section-title">How Hiring Works</div>
+                <div class="info-card">
+                    📌 Hire requests are reviewed by admin. 📌 Employee contact details are shared only after approval. 📌 This ensures safety and trust for both sides.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited. All rights reserved.
+    </div>
+    <script>
+        const toggle = document.getElementById("profileToggle");
+        const popover = document.getElementById("profilePopover");
+
+        toggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            popover.style.display =
+                popover.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", () => {
+            popover.style.display = "none";
+        });
+
+        function goHome() {
+            window.location.href = "Home.html";
+        }
+
+        setTimeout(() => {
+            const alerts = document.querySelectorAll(".alert");
+            alerts.forEach(a => a.remove());
+        }, 3000);        
+
+
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("navMenu");
+
+        hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+
+    </script>
+</body>
+
+</html>

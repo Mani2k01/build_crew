@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hire Request Approvals</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #f1f3f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            /* background-color: red; */
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            padding: 18px 40px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        main {
+            flex: 1 1 auto;
+            overflow-y: auto;
+            padding: 20px;
+        }  
+
+        .badge {
+            background: #e55039;
+            color: #fff;
+            border-radius: 12px;
+            padding: 2px 7px;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        .wrapper-wide {
+            max-width: 1200px;
+            /* THIS fixes your issue */
+            margin: 30px auto;
+            padding: 0 30px;
+            flex: 1;
+        }
+        
+        .request-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+        }
+        
+        .request-card h3 {
+            margin: 0;
+            color: #0a3d62;
+        }
+        
+        .actions button {
+            padding: 8px 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        .approve {
+            background: #28a745;
+            color: #fff;
+        }
+        
+        .reject {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .priority-high {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .priority-medium {
+            color: #f0ad4e;
+            font-weight: 600;
+        }
+
+        .priority-low {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        
+        .nav a {
+            color: #fff;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+        
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+
+        .request-card {
+            cursor: pointer;
+        }
+
+        .request-card:hover {
+            transform: translateY(-2px);
+            transition: 0.2s ease;
+        }
+        
+        .footer {
+            /* margin-top: 80px; */
+            background: linear-gradient(135deg, #0a3d62, #144f82);
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
+            padding: 20px 40px;
+            /* padding-bottom: 25px; */
+        }
+
+/* =========================
+   📱 MOBILE RESPONSIVE
+   ========================= */
+
+.hamburger {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile Styles Only */
+@media (max-width: 768px) {
+
+    .header {
+        background: linear-gradient(135deg, #0a3d62, #144f82);
+        padding: 0 18px;
+        height: 64px;                 /* fixed height for alignment */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;          /* vertical centering */
+        color: #fff;
+    }
+
+
+    .header h1 {
+        font-size: 18px;
+    }
+
+    .header h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+    }
+
+
+
+    .hamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        cursor: pointer;
+        height: 42px;
+        width: 42px;
+    }
+
+
+
+    .nav {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: 260px;
+        background: #0a3d62;
+        display: flex;
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 8px;                 /* spacing between links */
+        border-radius: 0 0 0 14px;
+        box-shadow: -6px 8px 18px rgba(0,0,0,0.25);
+        transform: translateX(100%);
+        transition: transform .25s ease;
+        z-index: 1000;
+    }
+
+
+    .nav a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+
+    .nav a.active {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .nav.show {
+        /* display: flex; */
+        transform: translateX(0);
+    }
+
+    /* Welcome card stacking */
+    .welcome-card {
+        grid-template-columns: 1fr;
+        padding: 22px;
+    }
+
+    .welcome-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .welcome-avatar {
+        width: 70px;
+        height: 70px;
+    }
+
+    .progress-box {
+        margin-top: 10px;
+    }
+
+    .action-grid {
+        gap: 18px;
+    }
+
+    .action-card {
+        padding: 20px;
+    }
+
+    .wrapper {
+        margin: 20px auto;
+    }
+
+    main {
+        padding: 12px;
+    }
+}
+
+/* small animation */
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(-10px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+
+/* ================= PROFILE POPOVER — MOBILE FIX ================= */
+@media (max-width: 768px) {
+
+    .profile-popover {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        top: auto;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        padding: 22px 18px 26px;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.25);
+        animation: slideUp .25s ease-out;
+    }
+
+    .profile-popover::before {
+        display: none; /* remove little arrow */
+    }
+
+    .profile-top {
+        gap: 14px;
+        align-items: center;
+    }
+
+    .profile-top img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-top h4 {
+        font-size: 17px;
+    }
+
+    .profile-top p {
+        font-size: 14px;
+    }
+
+    .btn-outline {
+        border-radius: 10px;
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    .logout-btn {
+        border-radius: 10px;
+        padding: 12px 0;
+    }
+
+}
+
+/* animation */
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>Work Request Approvals</h2>
+        <div class="hamburger" id="hamburger">
+            ☰
+        </div> 
+        <div class="nav" id="navMenu">
+            <a href="/admin_dashboard">Dashboard</a>
+            <a href="/users_approval">Approvals</a>
+            <a  href="/hire_requests">Hire Requests</a>
+            <% if (count && count != 0) { %>
+                <a class="active" href="">
+                    Employee Work Requests 
+                    <span class="badge"><%= count %></span>
+                </a>
+            <% } else { %>
+                <a class="active" href="">Employee Work Requests</a>
+            <% } %>
+        </div>
+    </div>
+    <main>
+        <form action="/work_request" method="post">
+            <div class="wrapper-wide">
+
+                <% if (results && results.length > 0) { %>
+
+                    <% results.forEach(function(result){ %>
+
+                        <div class="request-card" data-id="<%= result.user_id %>">
+
+                            <h3>
+                                <%= result.title %>
+                                <span style="font-size:14px;font-weight:400;color:#555;">
+                                    — Requested by <%= result.employee_name|| '' %>
+                                </span>
+                            </h3>
+
+                            <p><strong>Field:</strong> <%= result.field %></p>
+
+                            <p><strong>Description:</strong> <%= result.description %></p>
+
+                            <p><strong>Priority:</strong> 
+                                <span class="
+                                    <%= result.priority === 'HIGH' ? 'priority-high' :
+                                        result.priority === 'MEDIUM' ? 'priority-medium' :
+                                        'priority-low' %>">
+                                    <%= result.priority %>
+                                </span>
+                            </p>
+
+                            <div class="actions">
+                                <input type="hidden" name="user_id" value="<%= result.user_id %>">
+                                <input type="hidden" name="title" value="<%= result.title %>">
+
+                                <button class="approve" type="submit" name="action" value="approve">
+                                    Approve
+                                </button>
+
+                                <button class="reject" type="submit" name="action" value="reject">
+                                    Reject
+                                </button>
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                <% } else { %>
+                    <p style="text-align:center;color:#666;">No work requests found.</p>
+                <% } %>
+
+            </div>
+        </form>
+   
+    </main>
+
+    <div class="footer">
+        © 2025 VEDSP Inventive Private Limited – Admin Panel
+    </div>
+
+    <script>
+
+        document.querySelectorAll(".request-card").forEach(card => {
+            card.addEventListener("click", function (e) {
+                // Prevent accidental clicks from buttons later
+                if (e.target.tagName === "BUTTON") return;
+
+                const empId = this.dataset.id;
+                window.location.href = `/view_employee_profile/${empId}`;
+            });
+        });
+
+
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("navMenu");
+
+        hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                navMenu.classList.remove("show");
+            }
+        });
+
+    </script>
+    
+</body>
+
+</html>
