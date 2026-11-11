@@ -566,15 +566,15 @@
             <div class="profile-wrapper">
                 <div class="profile-menu" id="profileToggle">
                     <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" alt="Profile Photo">
-                    <span><%= profile_data.Name || "USER" %></span>
+                    <span><%= profile_data?.Name || "USER" %></span>
                 </div>
 
                 <div class="profile-popover" id="profilePopover">
                     <div class="profile-top">
                         <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" alt="Profile Photo">
                         <div>
-                            <h4><%= profile_data.Name || "USER" %></h4>
-                            <p><%= profile_data.Field || "" %></p>
+                            <h4><%= profile_data?.Name || "USER" %></h4>
+                            <p><%= profile_data?.Field || "" %></p>
                         </div>
                     </div>
 
@@ -603,7 +603,7 @@
                 <div class="welcome-left">
                     <img src="C:\Users\99gok\OneDrive\Desktop\Employee\profile.jpg" class="welcome-avatar">
                     <div>
-                        <h2>Welcome, <%= profile_data.Name || "USER" %> 👋</h2>
+                        <h2>Welcome, <%= profile_data?.Name || "USER" %> 👋</h2>
                         <p>
                             Complete your profile to get noticed by verified construction companies.
                         </p>

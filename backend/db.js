@@ -1,12 +1,20 @@
+require('dotenv').config();
 const mysql = require("mysql2/promise");
 
 class Database{
     constructor(databasename){
         this.databasename = databasename;
-
+        console.log("selected database : ", this.databasename);
         this.pool = mysql.createPool({
             uri: process.env.DATABASE_URL
         });
+        // this.pool = mysql.createPool({
+        //     user: "root",
+        //     host: "localhost",
+        //     database: this.databasename,
+        //     password: "Manikandan12",
+        //     port: 3306,
+        // });
         console.log(`Connected to database: ${this.databasename}`);
     }
 

@@ -1079,19 +1079,32 @@ async function update_notification(id, msg) {
 }
 
 
-async function fetch_employee_profile(emp_id){
-    const sql = `select * from employees where user_id = ?`;
+
+async function fetch_employee_profile(emp_id) {
+    const sql = `SELECT * FROM employees WHERE user_id = ?`;
     const result = await db.fetch_data(sql, [emp_id]);
-    if(result){
-        const iv = result.nounce;
-        const data = result.data;
-        const tag = result.tag;
+
+    if (!result) return null;
+
+    try {
+        const iv = Buffer.from(result.nounce);
+        const data = Buffer.from(result.data);
+        const tag = Buffer.from(result.tag);
+
+        console.log("IV:", iv.length);
+        console.log("Data:", data.length);
+        console.log("Tag:", tag.length);
+
         const decrypted_data = encryption.decrypt(iv, data, tag);
-        if(decrypted_data){
-            const emp_profile = JSON.parse(decrypted_data);
-            return emp_profile;
-        }
-    }else{ return [] }
+
+        if (!decrypted_data) return null;
+
+        return JSON.parse(decrypted_data);
+
+    } catch (err) {
+        console.error("Profile error:", err.message);
+        return null;
+    }
 }
 
 
